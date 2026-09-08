@@ -1,0 +1,119 @@
+<head>
+<mera name="viewport"content="width=device-width,initial-scale=1">
+<title>minecraft home starter</title>
+<style>
+@font-face{
+    font-family: "TTFFont";
+    src: url("assets/starter/ttf/Minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap
+}
+body{
+    background-image:url("assets/starter/background.png");
+    background-size: cover;
+}
+.ttf-text{
+    font-family: "TTFFont",sans-serif;
+    color:#ffffff;
+    font-size:15px;
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    margin-top:150px;
+}
+.play-text{
+    font-family: "TTFFont",sans-serif;
+    color:#000000;
+    font-size:15px;
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    margin-top:300px;
+    z-index:1;
+    font-weight: bold;
+  pointer-events: none;
+  z-index: 2;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.play_btn {
+    border: none;
+   background: transparent;
+   padding: 0;
+   cursor: pointer;
+ }
+ .play_btn img {
+   width: 90px;
+   height:50px ;
+   display: block;
+   
+ }
+
+</style>
+</head>
+<body>
+
+<button id="auth">授权文件夹：Minecraft home/date</button>
+<button id="read">读取save.json</button>
+<pre id="out"></pre>
+
+
+<img src="assets/starter/Java_Edition.png"width="312.5" height="65.2" style="display:block;left:50%; transform: translateX(-50%);margin:0 auto;position: absolute;"/>
+<img src="assets/starter/window_BE.png"width="312.5" height="250" style="display:block;left:50%;transform: translateX(-50%); margin-top:140px; position: absolute;"/>
+
+<p class = "ttf-text">minecraft home 启动器</p>
+<p class = "play-text">play</p>
+
+<button class="play_btn" id="btn">
+   <img id="btnImg" src="assets/starter/UI/button_0.png"width: 90px;height:50px style="display:block;left:50%;transform: translateX(-50%);  position: absolute;margin-top:290px;"/>
+ </button>
+
+</body>
+
+
+<script>
+
+let dirHandle = null;
+const targetFile = "player_date.json"; //要读的文件名
+
+document.querySelector("#auth").onclick = async ()=>{
+  dirHandle = await window.showDirectoryPicker();
+  alert("文件夹授权成功");
+};
+
+document.querySelector("#read").onclick = async ()=>{
+  if(!dirHandle){alert("先授权！");return;}
+  const fh = await dirHandle.getFileHandle(targetFile);
+  const file = await fh.getFile();
+  const text = await file.text();
+  const data = JSON.parse(text);
+  document.querySelector("#out").innerText = JSON.stringify(data,null,2);
+};
+
+const btnImg = document.getElementById('btnImg');
+ const normalImg = "assets/starter/UI/button_0.png";
+ const hoverImg = "assets/starter/UI/button_1.png";
+ const activeImg = "assets/starter/UI/button_down.png";
+ const btn = document.getElementById('btn');
+ // 鼠标悬浮
+ btn.onmouseover = function(){
+   btnImg.src = hoverImg;
+ }
+ // 鼠标移开
+ btn.onmouseout = function(){
+   btnImg.src = normalImg;
+ }
+ // 鼠标按下
+ btn.onmousedown = function(){
+   btnImg.src = activeImg;
+ }
+ // 鼠标松开切回悬浮图
+ btn.onmouseup = function(){
+   btnImg.src = hoverImg;
+ }
+
+    alert("欢迎游玩Minecraft home HTML版，为了游玩体验，请不要破解.json等文件，代码完全离线运行，若要分享游戏，请分享整个文件夹，而不是这个快捷方式！谢谢")
+     
+</script>
